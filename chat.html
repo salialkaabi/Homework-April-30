@@ -25,26 +25,146 @@
             text-align: center;
             color: #00732f;
         }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
             background-color: #009e49;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
+            cursor: pointer;
         }
-        a:hover {
+        button:hover {
             background-color: #00732f;
+        }
+        .chat-interface {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .messages {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .message span {
+            font-weight: bold;
+        }
+        .message img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Community Chat</h1>
-        <p>Welcome to the Community Chat! This feature is under development. Stay tuned for updates.</p>
-        <a href="index.html">Back to Community Homepage</a>
+        <form id="registration-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="13" required>
+
+            <label for="nationality">Nationality:</label>
+            <select id="nationality" name="nationality" required>
+                <option value="">Select your nationality</option>
+                <option value="UAE">UAE</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="profile-picture">Profile Picture (optional):</label>
+            <input type="file" id="profile-picture" accept="image/*">
+            <img id="preview" src="https://via.placeholder.com/100" alt="Default Avatar" style="display: block; margin-top: 10px; width: 100px; height: 100px; border-radius: 50%;">
+
+            <button type="submit">Register</button>
+            <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #00732f; color: white; text-decoration: none; border-radius: 5px;">Go Back to Main Menu</a>
+        </form>
+
+        <div class="chat-interface" id="chat-interface">
+            <div class="messages" id="messages"></div>
+            <div>
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button id="send-button">Send</button>
+            </div>
+            <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #00732f; color: white; text-decoration: none; border-radius: 5px;">Go Back to Main Menu</a>
+        </div>
     </div>
+
+    <script>
+        const registrationForm = document.getElementById('registration-form');
+        const chatInterface = document.getElementById('chat-interface');
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const profilePictureInput = document.getElementById('profile-picture');
+        const preview = document.getElementById('preview');
+
+        let user = null;
+
+        profilePictureInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        registrationForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const nationality = document.getElementById('nationality').value;
+            const profilePicture = preview.src;
+
+            if (age < 13) {
+                alert('You must be at least 13 years old to join the chat.');
+                return;
+            }
+
+            user = { name, age, nationality, profilePicture };
+            localStorage.setItem('user', JSON.stringify(user));
+
+            registrationForm.style.display = 'none';
+            chatInterface.style.display = 'flex';
+        });
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                const timestamp = new Date().toLocaleTimeString();
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                    <img src="${user.profilePicture}" alt="Avatar">
+                    <span>${user.name}</span> [${timestamp}]: ${message}
+                `;
+                messagesDiv.appendChild(messageElement);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                messageInput.value = '';
+            }
+        });
+    </script>
 </body>
 </html>
