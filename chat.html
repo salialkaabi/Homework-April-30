@@ -130,61 +130,67 @@
     </div>
 
     <script>
-        const registrationForm = document.getElementById('registration-form');
-        const chatInterface = document.getElementById('chat-interface');
-        const messagesDiv = document.getElementById('messages');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
-        const profilePictureInput = document.getElementById('profile-picture');
-        const preview = document.getElementById('preview');
+        document.addEventListener('DOMContentLoaded', () => {
+            const messageForm = document.getElementById('registration-form'); // Ensure correct form is targeted
 
-        let user = null;
+            messageForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                alert('Message submitted! We will get back to you within 24 hours.');
+                messageForm.reset(); // Reset the form fields
+            });
 
-        profilePictureInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+            const registrationForm = document.getElementById('registration-form');
+            const chatInterface = document.getElementById('chat-interface');
+            const messagesDiv = document.getElementById('messages');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const profilePictureInput = document.getElementById('profile-picture');
+            const preview = document.getElementById('preview');
 
-        registrationForm.addEventListener('submit', (event) => {
-            event.preventDefault();
+            let user = null;
 
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const nationality = document.getElementById('nationality').value;
-            const profilePicture = preview.src;
+            profilePictureInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
 
-            if (age < 13) {
-                alert('You must be at least 13 years old to join the chat.');
-                return;
-            }
+            registrationForm.addEventListener('submit', (event) => {
+                event.preventDefault();
 
-            user = { name, age, nationality, profilePicture };
-            localStorage.setItem('user', JSON.stringify(user));
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const nationality = document.getElementById('nationality').value;
+                const profilePicture = preview.src;
 
-            registrationForm.style.display = 'none';
-            chatInterface.style.display = 'flex';
-        });
+                if (age < 13) {
+                    alert('You must be at least 13 years old to join the chat.');
+                    return;
+                }
 
-        sendButton.addEventListener('click', () => {
-            const message = messageInput.value.trim();
-            if (message) {
-                const timestamp = new Date().toLocaleTimeString();
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.innerHTML = `
-                    <img src="${user.profilePicture}" alt="Avatar">
-                    <span>${user.name}</span> [${timestamp}]: ${message}
-                `;
-                messagesDiv.appendChild(messageElement);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                messageInput.value = '';
-            }
+                user = { name, age, nationality, profilePicture };
+                localStorage.setItem('user', JSON.stringify(user));
+
+                registrationForm.style.display = 'none';
+                chatInterface.style.display = 'flex';
+            });
+
+            sendButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default behavior
+
+                const message = messageInput.value.trim();
+                if (message) {
+                    alert('Message submitted! We will get back to you within 24 hours.');
+                    messageInput.value = ''; // Clear the input field
+                } else {
+                    alert('Please enter a message before sending.');
+                }
+            });
         });
     </script>
 </body>
