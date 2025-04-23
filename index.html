@@ -263,7 +263,72 @@
                 opacity: 0;
             }
         }
+        /* Confetti Effect on Bottom Left and Bottom Right Sides */
+        .confetti {
+            position: fixed;
+            bottom: 0;
+            width: 50%;
+            height: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .confetti.left {
+            left: 0;
+        }
+        .confetti.right {
+            right: 0;
+        }
+        .confetti div {
+            opacity: 0.3; /* Make confetti more transparent */
+            background-color: rgba(255, 182, 193, 0.3); /* Light pastel colors */
+        }
     </style>
+    <script>
+        let confettiTriggered = false;
+
+        document.addEventListener('scroll', () => {
+            if (window.scrollY > 100 && !confettiTriggered) {
+                confettiTriggered = true;
+
+                const createConfetti = (side) => {
+                    const confettiContainer = document.createElement('div');
+                    confettiContainer.classList.add('confetti', side);
+                    document.body.appendChild(confettiContainer);
+
+                    for (let i = 0; i < 50; i++) {
+                        const confetti = document.createElement('div');
+                        confetti.style.position = 'absolute';
+                        confetti.style.width = '10px';
+                        confetti.style.height = '10px';
+                        confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 100}, 50%, 50%)`; /* Shades of green */
+                        confetti.style.bottom = `${Math.random() * window.innerHeight / 2}px`;
+                        confetti.style.left = `${Math.random() * (window.innerWidth / 2)}px`;
+                        confetti.style.opacity = 0.3; /* More transparent */
+                        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                        confettiContainer.appendChild(confetti);
+                    }
+
+                    setTimeout(() => {
+                        confettiContainer.remove();
+                    }, 3000);
+                };
+
+                createConfetti('left');
+                createConfetti('right');
+            }
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </head>
 <body>
     <nav>
