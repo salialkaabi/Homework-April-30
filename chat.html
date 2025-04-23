@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Chat</title>
     <style>
+        /* Enhanced Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             color: #333;
             line-height: 1.6;
         }
@@ -24,6 +25,7 @@
         h1 {
             text-align: center;
             color: #00732f;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
         form {
             display: flex;
@@ -38,11 +40,17 @@
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 5px;
+            transition: box-shadow 0.3s;
+        }
+        input:focus, select:focus, button:focus {
+            box-shadow: 0 0 5px rgba(0, 147, 41, 0.5);
+            outline: none;
         }
         button {
             background-color: #009e49;
             color: white;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #00732f;
@@ -58,6 +66,7 @@
             padding: 10px;
             height: 200px;
             overflow-y: auto;
+            background-color: #f4f4f4;
         }
         .message {
             margin-bottom: 10px;
@@ -71,9 +80,21 @@
             border-radius: 50%;
             margin-right: 10px;
         }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00732f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #005f26;
+        }
     </style>
 </head>
-<body>
     <div class="container">
         <h1>Community Chat</h1>
         <form id="registration-form">
@@ -95,7 +116,7 @@
             <img id="preview" src="https://via.placeholder.com/100" alt="Default Avatar" style="display: block; margin-top: 10px; width: 100px; height: 100px; border-radius: 50%;">
 
             <button type="submit">Register</button>
-            <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #00732f; color: white; text-decoration: none; border-radius: 5px;">Go Back to Main Menu</a>
+            <a href="index.html">Go Back to Main Menu</a>
         </form>
 
         <div class="chat-interface" id="chat-interface">
@@ -104,7 +125,7 @@
                 <input type="text" id="message-input" placeholder="Type your message...">
                 <button id="send-button">Send</button>
             </div>
-            <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #00732f; color: white; text-decoration: none; border-radius: 5px;">Go Back to Main Menu</a>
+            <a href="index.html">Go Back to Main Menu</a>
         </div>
     </div>
 
