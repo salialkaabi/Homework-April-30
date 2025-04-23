@@ -172,7 +172,7 @@
 
             messageForm.addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
-                alert('Message submitted! We will get back to you within 24 hours.');
+                // alert('Message submitted! We will get back to you within 24 hours.');
                 messageForm.reset(); // Reset the form fields
             });
 
@@ -201,7 +201,7 @@
                 event.preventDefault();
 
                 const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
+                const age = parseInt(document.getElementById('age').value, 10); // Ensure age is treated as a number
                 const nationality = document.getElementById('nationality').value;
                 const profilePicture = preview.src;
 
@@ -212,6 +212,8 @@
 
                 user = { name, age, nationality, profilePicture };
                 localStorage.setItem('user', JSON.stringify(user));
+
+                alert('Thank you for registering! We are thrilled to have you here. Welcome to our wonderful community!');
 
                 registrationForm.style.display = 'none';
                 chatInterface.style.display = 'flex';
@@ -228,7 +230,6 @@
 
                 const message = messageInput.value.trim();
                 if (message) {
-                    alert('Message submitted! We will get back to you within 24 hours.');
                     messageInput.value = ''; // Clear the input field
                 } else {
                     alert('Please enter a message before sending.');
