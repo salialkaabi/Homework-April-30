@@ -208,6 +208,61 @@
                 margin-bottom: 10px;
             }
         }
+        /* Updated Heading Colors */
+        h1, h2, h3 {
+            color: #006400; /* Dark Green */
+        }
+        /* Fun and Interactive Style for Subtitle and Button */
+        .subtitle {
+            color: #555;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .subtitle:hover {
+            transform: scale(1.1);
+        }
+        .join-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #8fbc8f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 200px;
+            transition: background-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .join-button:hover {
+            background-color: #6b8e23;
+            transform: scale(1.1);
+        }
+        .join-button:active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 10%, transparent 40%);
+            transform: translate(-50%, -50%) scale(0);
+            animation: sparkle-effect 0.6s ease-out;
+        }
+        @keyframes sparkle-effect {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -224,10 +279,10 @@
     </nav>
 
     <section class="hero" id="home">
-        <h1>Welcome to the Year of Community</h1>
-        <p>Celebrating unity, collaboration, and the spirit of togetherness in the UAE.</p>
+        <h1 style="color: #00732f;">Welcome to the Year of Community</h1>
+        <p class="subtitle">Celebrating unity, collaboration, and the spirit of togetherness in the UAE.</p>
         <img src="https://assets.wam.ae/resource/ir200rh91k90qrlpn.jpg" alt="Year of Community Logo" style="margin: 20px auto; display: block; max-width: 300px;">
-        <a href="chat.html" style="display: block; margin: 20px auto; padding: 10px 20px; background-color: #8fbc8f; color: white; text-decoration: none; border-radius: 5px; text-align: center; max-width: 200px; transition: background-color 0.3s;">Join Community Chat</a>
+        <a href="chat.html" class="join-button">Join Community Chat</a>
     </section>
 
     <section class="story-section">
