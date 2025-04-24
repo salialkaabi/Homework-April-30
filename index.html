@@ -650,10 +650,10 @@
                         confetti.style.position = 'absolute';
                         confetti.style.width = '10px';
                         confetti.style.height = '10px';
-                        confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 100}, 50%, 50%)`; /* Shades of green */
+                        confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 100}, 50%, 50%)`;
                         confetti.style.bottom = `${Math.random() * window.innerHeight / 2}px`;
                         confetti.style.left = `${Math.random() * (window.innerWidth / 2)}px`;
-                        confetti.style.opacity = 0.3; /* More transparent */
+                        confetti.style.opacity = 0.3;
                         confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
                         confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
                         confettiContainer.appendChild(confetti);
@@ -679,26 +679,37 @@
         `;
         document.head.appendChild(style);
 
-        const testimonialContainer = document.querySelector('.testimonial-container');
+        document.addEventListener('DOMContentLoaded', () => {
+            const testimonialContainer = document.querySelector('.testimonial-container');
+            const testimonials = document.querySelectorAll('.testimonial');
 
-        // Ensure the container has overflow-x set to scroll and white-space nowrap for horizontal scrolling
-        testimonialContainer.style.overflowX = 'auto';
-        testimonialContainer.style.whiteSpace = 'nowrap';
+            if (testimonialContainer && testimonials.length > 0) {
+                let scrollAmount = 0;
+                let autoScrollInterval;
 
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+                function startContinuousScroll() {
+                    autoScrollInterval = setInterval(() => {
+                        scrollAmount += 1; // Adjust this value for smoother or faster scrolling
+                        if (scrollAmount >= testimonialContainer.scrollWidth) {
+                            scrollAmount = 0; // Reset to the beginning for continuous scrolling
+                        }
+                        testimonialContainer.scrollTo({
+                            left: scrollAmount,
+                            behavior: 'smooth',
+                        });
+                    }, 20); // Adjust interval for smoother scrolling
+                }
 
-            const email = document.getElementById('email').value;
+                function stopContinuousScroll() {
+                    clearInterval(autoScrollInterval);
+                }
 
-            // Simulate checking the email against registered users
-            const registeredEmails = ["user1@example.com", "user2@example.com", "user3@example.com"];
+                testimonialContainer.addEventListener('mouseover', stopContinuousScroll);
+                testimonialContainer.addEventListener('mouseout', startContinuousScroll);
 
-            if (registeredEmails.includes(email)) {
-                alert('Welcome back! Redirecting to the community dashboard...');
-                window.location.href = '/dashboard';
+                startContinuousScroll();
             } else {
-                alert('Email not recognized. Redirecting to the registration page...');
-                window.location.href = '/register';
+                console.error('Testimonial container or testimonials not found');
             }
         });
     </script>
