@@ -467,6 +467,154 @@
             background-color: #6b8e23; /* Slightly Darker Green */
             transform: scale(1.05);
         }
+        .login-section {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #f1f8e9; /* Light Green */
+        }
+        .login-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f8f8f2; /* Off White */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .login-container h2 {
+            color: #006400; /* Dark Green */
+            margin-bottom: 20px;
+        }
+        .login-container p {
+            font-size: 1.2rem;
+            color: #4a4a4a; /* Dark Grey */
+            margin-bottom: 30px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #4a4a4a; /* Dark Grey */
+        }
+        .login-container input:focus {
+            outline: none;
+            border-color: #6b8e23; /* Lighter Army Green */
+            box-shadow: 0 0 5px rgba(107, 142, 35, 0.5);
+        }
+        .login-container button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #8fbc8f; /* Lighter Army Green */
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .login-container button:hover {
+            background-color: #6b8e23; /* Slightly Darker Green */
+            transform: scale(1.05);
+        }
+        .community-section {
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .community-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .community-container h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .community-container p {
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .community-container form {
+            margin-bottom: 20px;
+        }
+
+        .community-container input {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+        }
+
+        .community-container button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .community-container .small-text {
+            font-size: 0.9em;
+            color: gray;
+        }
+
+        .community-container .get-involved-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28A745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        button, .get-involved-button, .join-community-chat, .catch-up, .sign-up-to-talk, .send {
+            padding: 10px 20px;
+            background-color: #90EE90; /* Light green color */
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        button:hover, .get-involved-button:hover, .join-community-chat:hover, .catch-up:hover, .sign-up-to-talk:hover, .send:hover {
+            background-color: #76c776; /* Slightly darker green for hover effect */
+        }
+
+        .catch-up {
+            display: inline-block;
+            margin: 20px auto; /* Center the button horizontally */
+            padding: 15px 30px;
+            background-color: #8fbc8f; /* Lighter Army Green */
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        .catch-up:hover {
+            background-color: #6b8e23; /* Slightly Darker Green */
+            transform: scale(1.1);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .catch-up-container {
+            text-align: center; /* Center the button container */
+            margin-top: 50px; /* Add spacing from the top */
+        }
     </style>
     <script>
         let confettiTriggered = false;
@@ -529,6 +677,23 @@
         // Ensure the container has overflow-x set to scroll and white-space nowrap for horizontal scrolling
         testimonialContainer.style.overflowX = 'auto';
         testimonialContainer.style.whiteSpace = 'nowrap';
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+
+            // Simulate checking the email against registered users
+            const registeredEmails = ["user1@example.com", "user2@example.com", "user3@example.com"];
+
+            if (registeredEmails.includes(email)) {
+                alert('Welcome back! Redirecting to the community dashboard...');
+                window.location.href = '/dashboard';
+            } else {
+                alert('Email not recognized. Redirecting to the registration page...');
+                window.location.href = '/register';
+            }
+        });
     </script>
 </head>
 <body>
@@ -538,9 +703,9 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#story-section">The Story</a></li>
             <li><a href="#events">Events</a></li>
-            <li><a href="#get-involved">Get Involved</a></li>
+            <li><a href="#community-stories">Community Stories</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="#login">Login</a></li>
+            <li><a href="#login">Catch Up with the Community</a></li>
         </ul>
     </nav>
 
@@ -642,6 +807,11 @@
         </div>
     </section>
 
+    <section class="section" id="community-stories">
+        <h2>Community Stories</h2>
+        <p>Welcome to the Community Stories section! Here, we share inspiring stories from individuals and groups who have made a positive impact in their communities. Stay tuned for updates and new stories.</p>
+    </section>
+
     <section class="section testimonials">
         <h2>Community Stories</h2>
         <div class="testimonial-wrapper">
@@ -687,23 +857,18 @@
         </div>
     </section>
 
-    <section class="section get-involved" id="get-involved">
-        <h2>Get Involved</h2>
-        <p>Join us in making a difference. Volunteer, participate, and contribute to the Year of Community.</p>
-        <a href="chat.html" class="get-involved-button">Sign Up to Talk</a>
-    </section>
-
-    <section class="login-section" id="login">
-        <h2>Login or Register</h2>
-        <form action="/submit" method="POST">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="send-button">Submit</button>
-            </div>
-        </form>
+    <section class="community-section" id="community">
+        <div class="community-container">
+            <h2>Catch Up with the Community</h2>
+            <p>If you are already a member, log in using your email address to catch up.</p>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <button type="submit">Catch Up</button>
+            </form>
+            <p class="small-text">Not a community member yet? Get Involved</p>
+            <p>Join us in making a difference. Volunteer, participate, and contribute to the Year of Community.</p>
+            <a href="chat.html" class="get-involved-button">Sign Up to Talk</a>
+        </div>
     </section>
 
     <section class="section contact" id="contact">
