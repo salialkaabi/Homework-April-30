@@ -327,44 +327,22 @@
         .subtitle:hover {
             transform: scale(1.1);
         }
-        .join-button {
-            display: block;
-            margin: 20px auto;
+        button, .get-involved-button, .join-button, .send-button, .catch-up {
             padding: 10px 20px;
-            background-color: #8fbc8f;
+            background-color: #8fbc8f; /* Lighter Army Green */
             color: white;
-            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 1.2rem;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
             text-align: center;
-            max-width: 200px;
-            transition: background-color 0.3s, transform 0.3s;
-            position: relative;
-            overflow: hidden;
+            transition: background-color 0.3s, transform 0.2s;
         }
-        .join-button:hover {
-            background-color: #6b8e23;
-            transform: scale(1.1);
-        }
-        .join-button:active::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 10%, transparent 40%);
-            transform: translate(-50%, -50%) scale(0);
-            animation: sparkle-effect 0.6s ease-out;
-        }
-        @keyframes sparkle-effect {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0;
-            }
+
+        button:hover, .get-involved-button:hover, .join-button:hover, .send-button:hover, .catch-up:hover {
+            background-color: #6b8e23; /* Slightly Darker Green */
+            transform: scale(1.05);
         }
         /* Confetti Effect on Bottom Left and Bottom Right Sides */
         .confetti {
@@ -561,11 +539,21 @@
         }
 
         .community-container button {
+            display: inline-block;
             padding: 10px 20px;
-            background-color: #007BFF;
+            background-color: #8fbc8f; /* Lighter Army Green */
             color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 5px;
             border: none;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .community-container button:hover {
+            background-color: #6b8e23; /* Slightly Darker Green */
+            transform: scale(1.05);
         }
 
         .community-container .small-text {
@@ -732,7 +720,7 @@
             <li><a href="#story-section">The Story</a></li>
             <li><a href="#events">Events</a></li>
             <li><a href="#community-stories">Community Stories</a></li>
-            <li><a href="#login">Catch Up with the Community</a></li>
+            <li><a href="#community">Catch Up with the Community</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
     </nav>
