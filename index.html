@@ -430,10 +430,9 @@
             margin-bottom: 20px;
         }
         .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 800px; /* Increased from 600px */
+            padding: 40px; /* Increased from 20px */
             background-color: #f1f8e9; /* Light Green */
-            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -712,6 +711,17 @@
                 console.error('Testimonial container or testimonials not found');
             }
         });
+
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Show the thank-you message
+            const thankYouMessage = document.getElementById('thank-you-message');
+            thankYouMessage.style.display = 'block';
+
+            // Optionally, clear the form fields
+            event.target.reset();
+        }
     </script>
 </head>
 <body>
@@ -722,8 +732,8 @@
             <li><a href="#story-section">The Story</a></li>
             <li><a href="#events">Events</a></li>
             <li><a href="#community-stories">Community Stories</a></li>
-            <li><a href="#contact">Contact</a></li>
             <li><a href="#login">Catch Up with the Community</a></li>
+            <li><a href="#contact">Contact Us</a></li>
         </ul>
     </nav>
 
@@ -890,21 +900,24 @@
 
     <section class="section contact" id="contact">
         <h2>Contact Us</h2>
-        <form class="contact-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Your Name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Your Email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="send-button">Send</button>
-        </form>
+        <div class="story-text-box">
+            <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="send-button">Send</button>
+            </form>
+            <p id="thank-you-message" style="display: none; margin-top: 20px; color: #006400; font-size: 1.2rem;">We have received your message. Thank you for reaching out! We will get back to you within 24 hours.</p>
+        </div>
     </section>
 
     <footer>
