@@ -710,6 +710,43 @@
             // Optionally, clear the form fields
             event.target.reset();
         }
+
+        function showPopupAndRedirect(message, redirectUrl) {
+            const popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.backgroundColor = '#8fbc8f';
+            popup.style.color = 'white';
+            popup.style.padding = '20px';
+            popup.style.borderRadius = '10px';
+            popup.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            popup.style.textAlign = 'center';
+            popup.style.fontSize = '1.2rem';
+            popup.style.zIndex = '1000';
+            popup.innerHTML = `<div>${message}</div>`;
+
+            document.body.appendChild(popup);
+
+            setTimeout(() => {
+                popup.style.transition = 'opacity 0.5s';
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(popup);
+                    window.location.href = redirectUrl;
+                }, 500);
+            }, 2000);
+        }
+
+        document.querySelector('#catch-up-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPopupAndRedirect('Thank you for joining our community!', 'portal.html');
+        });
+
+        document.getElementById('catch-up-button').addEventListener('click', () => {
+            window.location.href = 'portal.html';
+        });
     </script>
 </head>
 <body>
@@ -875,12 +912,6 @@
     <section class="community-section" id="community">
         <div class="community-container">
             <h2>Catch Up with the Community</h2>
-            <p>If you are already a member, log in using your email address to catch up.</p>
-            <form id="login-form">
-                <input type="email" id="email" placeholder="Enter your email" required>
-                <button type="submit">Catch Up</button>
-            </form>
-            <p class="small-text">Not a community member yet? Get Involved</p>
             <p>Join us in making a difference. Volunteer, participate, and contribute to the Year of Community.</p>
             <a href="chat.html" class="get-involved-button">Sign Up to Talk</a>
         </div>

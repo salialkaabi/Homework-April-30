@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8f0;
+            color: #333;
+        }
+        header {
+            background-color: #8fbc8f;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .messages {
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .message span {
+            font-weight: bold;
+        }
+        .input-area {
+            display: flex;
+            margin-top: 10px;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .input-area button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #8fbc8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-area button:hover {
+            background-color: #6b8e23;
+        }
+        .online-users {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #8fbc8f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #6b8e23;
+        }
+    </style>
+</head>
+<body>
+    <header>Welcome to the Messaging Portal</header>
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+        <div class="online-users" id="online-users">Online Users: User1, User2</div>
+        <a href="index.html">Back to Main Site</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const messagesDiv = document.getElementById('messages');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+
+            // Load chat history from localStorage
+            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+            chatHistory.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.innerHTML = `<span>${message.username}:</span> ${message.text} <small>${message.timestamp}</small>`;
+                messagesDiv.appendChild(messageDiv);
+            });
+
+            // Scroll to the bottom of the chat
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            sendButton.addEventListener('click', () => {
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    const timestamp = new Date().toLocaleTimeString();
+                    const username = 'You'; // Simulated username
+
+                    // Add message to chat history
+                    const message = { username, text: messageText, timestamp };
+                    chatHistory.push(message);
+                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
+                    // Display the message
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message');
+                    messageDiv.innerHTML = `<span>${username}:</span> ${messageText} <small>${timestamp}</small>`;
+                    messagesDiv.appendChild(messageDiv);
+
+                    // Clear the input field
+                    messageInput.value = '';
+
+                    // Scroll to the bottom of the chat
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+                    // Show a pop-up notification
+                    const popup = document.createElement('div');
+                    popup.style.position = 'fixed';
+                    popup.style.bottom = '20px';
+                    popup.style.right = '20px';
+                    popup.style.backgroundColor = '#8fbc8f';
+                    popup.style.color = 'white';
+                    popup.style.padding = '10px';
+                    popup.style.borderRadius = '5px';
+                    popup.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                    popup.innerText = 'Message sent!';
+                    document.body.appendChild(popup);
+
+                    setTimeout(() => {
+                        popup.style.transition = 'opacity 0.5s';
+                        popup.style.opacity = '0';
+                        setTimeout(() => document.body.removeChild(popup), 500);
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
