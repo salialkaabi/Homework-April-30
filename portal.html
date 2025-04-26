@@ -86,80 +86,133 @@
         a:hover {
             background-color: #6b8e23;
         }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        #welcome-message {
+            font-size: 2.5rem; /* Increased size to make it more prominent */
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Fun font */
+            color: #555;
+            font-weight: bold; /* Bolded the text */
+            margin-top: 10px;
+            animation: fadeIn 2s ease-in-out, bounce 2s infinite;
+        }
     </style>
 </head>
 <body>
-    <header>Welcome to the Messaging Portal</header>
+    <header>
+        <h1>Welcome to the Messaging Portal!!!</h1>
+        <p id="welcome-message" style="font-size: 1.2rem; color: #555; margin-top: 10px; animation: fadeIn 2s ease-in-out;">Loading your personalized greeting...</p>
+    </header>
     <div class="chat-container">
         <div class="messages" id="messages"></div>
         <div class="input-area">
             <input type="text" id="message-input" placeholder="Type your message...">
             <button id="send-button">Send</button>
         </div>
-        <div class="online-users" id="online-users">Online Users: User1, User2</div>
+        <div class="online-users" id="online-users"></div>
         <a href="index.html">Back to Main Site</a>
     </div>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const messagesDiv = document.getElementById('messages');
             const messageInput = document.getElementById('message-input');
             const sendButton = document.getElementById('send-button');
 
-            // Load chat history from localStorage
             const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+
+            // Load chat history on page load
             chatHistory.forEach(message => {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
-                messageDiv.innerHTML = `<span>${message.username}:</span> ${message.text} <small>${message.timestamp}</small>`;
+                messageDiv.innerHTML = `<img src="${localStorage.getItem('profilePicture')}" alt="Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;"> <span>${message.timestamp} - ${message.username}:</span> ${message.text}`;
                 messagesDiv.appendChild(messageDiv);
             });
 
-            // Scroll to the bottom of the chat
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            // Display a welcoming message based on nationality
+            const username = localStorage.getItem('username') || 'Guest';
+            const country = localStorage.getItem('country') || 'UAE';
+            const welcomeMessages = {
+                'UAE': `مرحبًا ${username}! أهلاً بك في بوابة الدردشة.`,
+                'USA': `Hello ${username}! Welcome to the chat portal.`,
+                'UK': `Hello ${username}! Welcome to the chat portal.`,
+                'India': `नमस्ते ${username}! चैट पोर्टल में आपका स्वागत है।`,
+                'Other': `Hello ${username}! Welcome to the chat portal.`
+            };
+
+            const welcomeMessage = welcomeMessages[country] || `Hello ${username}! Welcome to the chat portal.`;
+            const welcomeMessageElement = document.getElementById('welcome-message');
+            welcomeMessageElement.textContent = welcomeMessage;
 
             sendButton.addEventListener('click', () => {
                 const messageText = messageInput.value.trim();
                 if (messageText) {
-                    const timestamp = new Date().toLocaleTimeString();
-                    const username = 'You'; // Simulated username
+                    const timestamp = new Date().toLocaleString();
+                    const username = localStorage.getItem('username') || 'Anonymous';
 
-                    // Add message to chat history
                     const message = { username, text: messageText, timestamp };
+
+                    // Save message to localStorage
                     chatHistory.push(message);
                     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
 
                     // Display the message
                     const messageDiv = document.createElement('div');
                     messageDiv.classList.add('message');
-                    messageDiv.innerHTML = `<span>${username}:</span> ${messageText} <small>${timestamp}</small>`;
+                    messageDiv.innerHTML = `<img src="${localStorage.getItem('profilePicture')}" alt="Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;"> <span>${timestamp} - ${username}:</span> ${messageText}`;
                     messagesDiv.appendChild(messageDiv);
 
                     // Clear the input field
                     messageInput.value = '';
-
-                    // Scroll to the bottom of the chat
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-                    // Show a pop-up notification
-                    const popup = document.createElement('div');
-                    popup.style.position = 'fixed';
-                    popup.style.bottom = '20px';
-                    popup.style.right = '20px';
-                    popup.style.backgroundColor = '#8fbc8f';
-                    popup.style.color = 'white';
-                    popup.style.padding = '10px';
-                    popup.style.borderRadius = '5px';
-                    popup.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-                    popup.innerText = 'Message sent!';
-                    document.body.appendChild(popup);
-
-                    setTimeout(() => {
-                        popup.style.transition = 'opacity 0.5s';
-                        popup.style.opacity = '0';
-                        setTimeout(() => document.body.removeChild(popup), 500);
-                    }, 2000);
                 }
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeMessageElement = document.getElementById('welcome-message');
+            const userCountry = localStorage.getItem('country');
+            const username = localStorage.getItem('username') || 'Guest';
+
+            const messages = {
+                "United States": `We are happy you are here, ${username}!`,
+                "United Kingdom": `We are happy you are here, ${username}!`,
+                "United Arab Emirates": `نحن سعداء بوجودك هنا، ${username}!`,
+                "India": `हम खुश हैं कि आप यहाँ हैं, ${username}!`,
+                "France": `Nous sommes heureux que vous soyez ici, ${username}!`,
+                "Germany": `Wir freuen uns, dass Sie hier sind, ${username}!`,
+                "Spain": `Estamos felices de que estés aquí, ${username}!`,
+                "China": `我们很高兴你在这里, ${username}!`,
+                "Japan": `私たちはあなたがここにいることを嬉しく思います, ${username}!`,
+                "Russia": `Мы рады, что вы здесь, ${username}!`,
+                "Saudi Arabia": `نحن سعداء بوجودك هنا، ${username}!`,
+                // Add more countries and their respective messages here
+            };
+
+            const defaultMessage = `We are happy you are here, ${username}!`;
+            const message = messages[userCountry] || defaultMessage;
+
+            welcomeMessageElement.textContent = message;
         });
     </script>
 </body>

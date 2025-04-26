@@ -132,18 +132,19 @@
         }
     </style>
 </head>
+<body>
     <div class="container">
         <h1>Community Chat</h1>
         <form id="registration-form">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-            <label for="nationality">Nationality:</label>
-            <select id="nationality" name="nationality" required>
-                <option value="">Select your nationality</option>
+            <label for="country">Country:</label>
+            <select id="country" name="country" required>
+                <option value="">Select your country</option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
                 <option value="Algeria">Algeria</option>
@@ -198,7 +199,7 @@
                 <option value="Equatorial Guinea">Equatorial Guinea</option>
                 <option value="Eritrea">Eritrea</option>
                 <option value="Estonia">Estonia</option>
-                <option value="Eswatini (fmr. "Swaziland")">Eswatini (fmr. "Swaziland")</option>
+                <option value="Eswatini">Eswatini</option>
                 <option value="Ethiopia">Ethiopia</option>
                 <option value="Fiji">Fiji</option>
                 <option value="Finland">Finland</option>
@@ -232,9 +233,6 @@
                 <option value="Kazakhstan">Kazakhstan</option>
                 <option value="Kenya">Kenya</option>
                 <option value="Kiribati">Kiribati</option>
-                <option value="Korea (North)">Korea (North)</option>
-                <option value="Korea (South)">Korea (South)</option>
-                <option value="Kosovo">Kosovo</option>
                 <option value="Kuwait">Kuwait</option>
                 <option value="Kyrgyzstan">Kyrgyzstan</option>
                 <option value="Laos">Laos</option>
@@ -263,7 +261,7 @@
                 <option value="Montenegro">Montenegro</option>
                 <option value="Morocco">Morocco</option>
                 <option value="Mozambique">Mozambique</option>
-                <option value="Myanmar (formerly Burma)">Myanmar (formerly Burma)</option>
+                <option value="Myanmar">Myanmar</option>
                 <option value="Namibia">Namibia</option>
                 <option value="Nauru">Nauru</option>
                 <option value="Nepal">Nepal</option>
@@ -272,7 +270,8 @@
                 <option value="Nicaragua">Nicaragua</option>
                 <option value="Niger">Niger</option>
                 <option value="Nigeria">Nigeria</option>
-                <option value="North Macedonia (formerly Macedonia)">North Macedonia (formerly Macedonia)</option>
+                <option value="North Korea">North Korea</option>
+                <option value="North Macedonia">North Macedonia</option>
                 <option value="Norway">Norway</option>
                 <option value="Oman">Oman</option>
                 <option value="Pakistan">Pakistan</option>
@@ -306,6 +305,7 @@
                 <option value="Solomon Islands">Solomon Islands</option>
                 <option value="Somalia">Somalia</option>
                 <option value="South Africa">South Africa</option>
+                <option value="South Korea">South Korea</option>
                 <option value="South Sudan">South Sudan</option>
                 <option value="Spain">Spain</option>
                 <option value="Sri Lanka">Sri Lanka</option>
@@ -329,11 +329,10 @@
                 <option value="Ukraine">Ukraine</option>
                 <option value="United Arab Emirates">United Arab Emirates</option>
                 <option value="United Kingdom">United Kingdom</option>
-                <option value="United States of America">United States of America</option>
+                <option value="United States">United States</option>
                 <option value="Uruguay">Uruguay</option>
                 <option value="Uzbekistan">Uzbekistan</option>
                 <option value="Vanuatu">Vanuatu</option>
-                <option value="Vatican City">Vatican City</option>
                 <option value="Venezuela">Venezuela</option>
                 <option value="Vietnam">Vietnam</option>
                 <option value="Yemen">Yemen</option>
@@ -341,35 +340,103 @@
                 <option value="Zimbabwe">Zimbabwe</option>
             </select>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
             <label for="profile-picture">Profile Picture (optional):</label>
             <input type="file" id="profile-picture" accept="image/*">
             <img id="preview" src="https://via.placeholder.com/100" alt="Default Avatar" style="display: block; margin-top: 10px; width: 100px; height: 100px; border-radius: 50%;">
 
             <button type="submit" id="register-me-button">Register</button>
-            <button id="login-button">Log In</button>
-            <a href="index.html">Go Back to Main Menu</a>
         </form>
 
-        <div class="chat-interface" id="chat-interface">
+        <div id="connecting-message" style="display: none; background-color: #006400; color: white; padding: 20px; text-align: center; border-radius: 5px; margin-top: 20px; font-size: 1.5rem;">
+            Connecting you to the community...
+        </div>
+
+        <div class="chat-interface" id="chat-interface" style="display: none;">
+            <h2 id="welcome-message"></h2>
             <div class="messages" id="messages"></div>
             <div>
                 <input type="text" id="message-input" placeholder="Type your message...">
                 <button id="send-button">Send</button>
             </div>
-            <a href="index.html">Go Back to Main Menu</a>
-        </div>
-
-        <div id="login-form" style="display: none;">
-            <label for="login-email">Email:</label>
-            <input type="email" id="login-email" name="login-email" required>
-            <button id="submit-login">Log In</button>
-            <a href="#" id="back-to-registration" style="display: block; margin-top: 10px;">Go Back</a>
+            <button id="view-history-button">View History</button>
         </div>
     </div>
 
-    <script src="messages.js"></script>
+    <script>
+        document.getElementById('register-me-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const country = document.getElementById('country').value;
+            const profilePicture = document.getElementById('profile-picture').files[0];
+
+            if (name && email && country) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('username', name);
+                    localStorage.setItem('email', email);
+                    localStorage.setItem('country', country);
+                    localStorage.setItem('profilePicture', e.target.result); // Save profile picture as base64
+
+                    // Redirect directly to chat interface
+                    window.location.href = 'portal.html';
+                };
+
+                if (profilePicture) {
+                    reader.readAsDataURL(profilePicture);
+                } else {
+                    localStorage.setItem('profilePicture', 'https://via.placeholder.com/100'); // Default avatar
+                    window.location.href = 'portal.html'; // Redirect to chat interface
+                }
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        document.getElementById('send-button').addEventListener('click', function() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const timestamp = new Date().toLocaleString();
+                const username = localStorage.getItem('username'); // Retrieve registered username
+                const profilePicture = localStorage.getItem('profilePicture'); // Retrieve registered profile picture
+
+                if (!username || !profilePicture) {
+                    alert('User identity not found. Please register again.');
+                    return;
+                }
+
+                const message = { username, text: messageText, timestamp, profilePicture };
+
+                // Save message to localStorage
+                const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+                chatHistory.push(message);
+                localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
+                // Display the message
+                const messagesDiv = document.getElementById('messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.innerHTML = `<img src="${profilePicture}" alt="Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;"> <span>${username}:</span> ${messageText} <small>${timestamp}</small>`;
+                messagesDiv.appendChild(messageDiv);
+
+                // Clear the input field
+                messageInput.value = '';
+            }
+        });
+
+        document.getElementById('view-history-button').addEventListener('click', function() {
+            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = ''; // Clear current messages
+            chatHistory.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.innerHTML = `<img src="${message.profilePicture}" alt="Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;"> <span>${message.username}:</span> ${message.text} <small>${message.timestamp}</small>`;
+                messagesDiv.appendChild(messageDiv);
+            });
+        });
+    </script>
 </body>
 </html>
